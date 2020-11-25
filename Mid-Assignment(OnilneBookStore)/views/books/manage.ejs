@@ -1,0 +1,88 @@
+<link href="/public/assets/css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
+<link href="/public/assets/css/app.css" rel="stylesheet">
+<%- include('../admin/header.ejs') %>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h1>All Books List</h1>
+            </div>
+            <p>Here are all the books in database.. </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>Search by keyword...</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+            <input type="search" id="search" value="" class="form-control" placeholder="keyword">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table" id="table">
+                <thead>
+                    <tr>
+                        <th>Book ID</th>
+                        <th>Book Name</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for( var i = 0; i < books.length; i++){ %> 
+                        <tr>
+                            <td><%= books[i].bookid%></td>
+                            <td><%= books[i].name%></td>
+                            <td><%= books[i].author%></td>
+                            <td><%= books[i].category%></td>
+                            <td><%= books[i].price%></td>
+                            <td><%= books[i].quantity%></td>
+                            <td>
+                                <a href="/admin/book/update/<%= books[i].bookid%>" class="btn btn-success btn-sm" >Update</a>
+                                <button type="button" class="btn btn-danger btn-sm book-remove-modal" book-id="<%= books[i].bookid%>" book-name="<%= books[i].name%>" data-toggle="modal" data-target="#exampleModalCenter">
+                                    Remove
+                                </button>                   
+                            </td>
+                        </tr>
+                    <% } %> 
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Are you sure to remove?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <h3>Book ID: </h3><h4 id="modal-book-id"></h4>
+            <h3>Book Name: </h3><h4 id="modal-book-name"><h4>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <a href="" id="remove-book-by-id" class="btn btn-danger">Remove</a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+<script src="/public/assets/js/bootstrap.js"></script>
+<script src="/public/assets/js/jquery-3.5.1.js"></script>
+<script src="/public/assets/js/app-ui.js"></script>
+<script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>

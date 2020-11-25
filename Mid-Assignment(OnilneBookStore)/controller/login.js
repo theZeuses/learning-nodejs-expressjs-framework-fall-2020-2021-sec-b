@@ -26,6 +26,8 @@ router.post('/', (req, res)=>{
                 res.redirect('/admin');
             }else{
                 res.cookie('uname', result[0].userid);
+                res.cookie('cartItemNumber', 0);
+		        res.cookie('cartItem',[]);
                 req.session.type = result[0].type;
                 res.redirect('/customer');
             }

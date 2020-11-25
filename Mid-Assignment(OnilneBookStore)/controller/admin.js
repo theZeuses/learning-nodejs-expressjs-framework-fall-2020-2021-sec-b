@@ -190,6 +190,84 @@ router.post('/book/update/:id', upload.single('image'), [
 	}
 })
 
+router.get('/home/book/update/:id', (req, res)=>{
+	if(req.cookies['uname'] != null && req.session.type=="Admin"){
+		booksModel.getById(req.params.id, function(result){
+			res.render('books/updateFromHome', {book: result[0]});
+		});
+	}else{
+		res.redirect('/login');
+	}
+})
+
+router.post('/home/book/update/:id', upload.single('image'), [
+	check('BookName', 'Book name must be provided')
+	.notEmpty(),
+	check('Author','Author name must be provided')
+	.notEmpty(),
+	check('Price')
+	.notEmpty()
+	.withMessage('Price of one unit must be provided')
+	.isFloat({min: 0})
+	.withMessage('Invalid price'),
+	check('Quantity')
+	.notEmpty()
+	.withMessage('Quantity to input must be provided')
+	.isFloat({min: 0})
+	.withMessage('Invalid quantity'),
+	check('Categories')
+	.custom((value, { req }) => {
+		if (value == "Novel" || value == "Literature" || value == "Sci-fi" || value == "Academic") {
+			return true;
+		}else{			
+			throw new Error('Select a valid category');
+		}
+	}),
+	check('Details', 'Provide some details about the book')
+	.notEmpty()
+], (req, res)=>{
+	var book = {
+		bookid : req.params.id,
+		name : req.body.BookName,
+		author : req.body.Author,
+		price : req.body.Price,
+		quantity : req.body.Quantity,
+		category : req.body.Categories,
+		details : req.body.Details
+	};
+	const errors = validationResult(req);
+	if(errors.isEmpty()){
+		booksModel.getById(req.params.id, function(result){
+			if(req.file == null && (result[0].picture == null || result[0].picture.length == 0)){
+				var alertTwo = "Please upload a cover photo for the book";
+				res.render('books/updateFromHome', {book: book, alertTwo: alertTwo});
+			}else if(req.file != null){
+				book.picture = req.file.filename;
+				booksModel.update(book, function(status){
+					var alertOne = "Updated book successfully.";
+					res.render('books/updateFromHome', {book: book, alertOne: alertOne});
+				});
+			}else{
+				book.picture = result[0].picture;
+				booksModel.update(book, function(status){
+					var alertOne = "Updated book successfully.";
+					res.render('books/updateFromHome', {book: book, alertOne: alertOne});
+				});
+			}
+		});		
+	}else{
+		const alert = errors.array();
+		res.render('books/updateFromHome', {alert: alert, book: book});
+	}
+})
+
+router.get('/fetchmodal/:data', (req, res)=>{
+	var data = JSON.parse(req.params.data);
+	booksModel.getById(data.query, function(result){
+		res.json({book: result[0]});
+	});
+})
+
 router.get('/users/list', (req, res)=>{
 	res.render('users/list');
 })

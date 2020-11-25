@@ -84,7 +84,7 @@ $(function () {
                     html += '<div class="col-md-3 col-sm-6"><div class="product-grid4"><div class="product-image4">';
                     html +=    '<a href="#"><img class="pic-1" src="/public/assets/uploads/'+results[i].picture+'">';
                     html +=        '<img class="pic-2" src="/public/assets/uploads/'+results[i].picture+'"></a>';
-                    html +=   '<ul class="social"><li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li></ul>';
+                    html +=   '<ul class="social"><li><a data-tip="Quick View" data-toggle="modal" class="admin-book-info-modal" book-id="'+results[i].bookid+'" data-target="#exampleModalLong"><i class="fa fa-eye"></i></a></li></ul>';
                     html +=    '<span class="product-new-label">New</span><span class="product-discount-label">-10%</span></div>';
                     html += '<div class="product-content"><h3 class="title"><a href="#">'+results[i].name+'</a></h3><div class="price">';
                     html +=      results[i].price+'<span>$16.00</span></div><p class="card-text">'+results[i].author+'</p>';
@@ -151,6 +151,36 @@ $(function () {
         $("#modal-book-id").html( myBookId );
         $("#modal-book-name").html( myBookName );
         $("#remove-book-by-id").attr('href', '/admin/book/remove/'+myBookId);
+      });
+
+      $(document).on("click", ".admin-book-info-modal", function () {
+        var myBookId = $(this).attr('book-id');
+        var data = {
+          query: myBookId
+        }
+        var json = JSON.stringify(data);
+        console.log(json);
+        $.ajax({
+          type: 'GET',
+          url: '/admin/fetchmodal/'+json,
+          contentType: 'application/json',
+          dataType: "json",
+          success: function(book) {
+            var book = book.book;
+            var html = "";
+            html += '<img src="/public/assets/uploads/'+book.picture+'" class="product-image4 pic-1">';
+            html += '<h4>Book ID:</h4><h5>'+book.bokid+'</h5>';
+            html += '<h4>Book Name:</h4><h5>'+book.name+'</h5>';
+            html += '<h4>Author:</h4><h5>'+book.author+'</h5>';
+            html += '<h4>Price:</h4><h5>'+book.price+'</h5>';
+            html += '<h4>Quantity:</h4><h5>'+book.quantity+'</h5>';
+            html += '<h4>Category:</h4><h5>'+book.category+'</h5>';
+            html += '<h4>Details:</h4><h5>'+book.details+'</h5>';
+            //console.log(html);
+            $('#admin-book-info-modal-body').html(html);
+            $('#admin-book-info-modal-edit').attr('href','/admin/home/book/update/'+book.bookid);
+          }
+        });
       });
    
 

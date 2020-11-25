@@ -34,7 +34,7 @@
                             <img class="pic-2" src="/public/assets/uploads/<%=shuffled[i].picture%>">
                         </a>
                         <ul class="social">
-                            <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                            <li><a data-tip="Quick View" data-toggle="modal" class="admin-book-info-modal" book-id="<%=shuffled[i].bookid%>" data-target="#exampleModalLong"><i class="fa fa-eye"></i></a></li>
                         </ul>
                         <span class="product-new-label">New</span>
                         <span class="product-discount-label">-10%</span>
@@ -64,6 +64,34 @@
   </div>
   <!-- /.container -->
 
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Book Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="admin-book-info-modal-body">
+        <img src="" class="product-image4 pic-1">
+        <h4>Book ID:</h4>
+        <h4>Book Name:</h4>
+        <h4>Author:</h4>
+        <h4>Price:</h4>
+        <h4>Quantity:</h4>
+        <h4>Category:</h4>
+        <h4>Details:</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="" id="admin-book-info-modal-edit" class="btn btn-primary">Edit</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <script src="/public/assets/js/bootstrap.js"></script>

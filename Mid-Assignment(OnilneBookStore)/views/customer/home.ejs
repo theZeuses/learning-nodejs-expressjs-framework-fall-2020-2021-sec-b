@@ -1,0 +1,73 @@
+<link href="/public/assets/css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
+<link href="/public/assets/css/app.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+<%- include('header.ejs') %>
+
+ <!-- Page Content -->
+ <div class="container">
+
+    <div class="row">
+
+      <div class="col-lg-3">
+
+        <h1 class="my-4">Booky.com</h1>
+        <div class="list-group">
+          <button class="list-group-item btn btn-primary custom-btn category-btn" value="academic" >Academic <span class="badge badge-light"><%=academic.length%></span></button>
+          <button class="list-group-item btn btn-primary custom-btn category-btn" value="literature" >Literature <span class="badge badge-light"><%=literature.length%></span></button>
+          <button class="list-group-item btn btn-primary custom-btn category-btn" value="novel" >Novel <span class="badge badge-light"><%=novel.length%></span></button>
+          <button class="list-group-item btn btn-primary custom-btn category-btn" value="sci-fi" >Sci-fi <span class="badge badge-light"><%=scifi.length%></span></button>
+        </div>
+
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9 book-card" id="categorify">
+        <h3>Category: <small>All</small> </h3>
+        <div class="row">
+          <% for(var i=0; i < shuffled.length; i++){ %> 
+            <div class="col-md-3 col-sm-6">
+                <div class="product-grid4">
+                    <div class="product-image4">
+                        <a href="#">
+                            <img class="pic-1" src="/public/assets/uploads/<%=shuffled[i].picture%>">
+                            <img class="pic-2" src="/public/assets/uploads/<%=shuffled[i].picture%>">
+                        </a>
+                        <ul class="social">
+                            <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
+                            <li><a class="addToCart" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
+                        </ul>
+                        <span class="product-new-label">New</span>
+                        <span class="product-discount-label">-10%</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="title"><a href="#"><%=shuffled[i].name%></a></h3>
+                        <div class="price">
+                          <%=shuffled[i].price%>
+                            <span>$16.00</span>
+                        </div>
+                        <p class="card-text"><%=shuffled[i].author%></p>
+                        <button class="add-to-cart" value="<%=shuffled[i].bookid%>">ADD TO CART</button>
+                    </div>
+                </div>
+             
+            </div>
+            <% } %> 
+
+        </div>
+        <!-- /.row -->
+
+      </div>
+      <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+
+
+<script src="/public/assets/js/bootstrap.js"></script>
+<script src="/public/assets/js/jquery-3.5.1.js"></script>
+<script src="/public/assets/js/app-ui.js"></script>

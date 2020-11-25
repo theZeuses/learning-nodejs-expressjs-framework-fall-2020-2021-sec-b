@@ -1,0 +1,40 @@
+<link href="/public/assets/css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
+<link href="/public/assets/css/app.css" rel="stylesheet">
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="#">Booky.com</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/admin">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/profile">Profile</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Books
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/admin/book/add">Add Book</a>
+            <a class="dropdown-item" href="/admin/book/manage">Manage Book</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/users">Users</a>
+        </li>
+        <li class="nav-item">
+          <a href="/logout" class="btn btn-danger btn-sm" >Log Out</a>               
+        </li>
+      </ul>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Orders<span class="badge badge-light"> 56</span></button> 
+    </div>
+  </nav>
+
+<script src="/public/assets/js/bootstrap.js"></script>
+<script src="/public/assets/js/jquery-3.5.1.js"></script>
+<script src="/public/assets/js/app-ui.js"></script>

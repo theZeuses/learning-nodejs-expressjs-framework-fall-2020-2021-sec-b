@@ -2,6 +2,7 @@ const express 	= require('express');
 const multer = require('multer');
 const { body, check, validationResult } = require('express-validator');
 const booksModel	= require.main.require('./models/booksModel');
+const usersModel	= require.main.require('./models/usersModel');
 const router 	= express.Router();
 
 
@@ -273,7 +274,13 @@ router.get('/users/list', (req, res)=>{
 })
 
 router.get('/profile', (req, res)=>{
-	res.render('admin/profile');
+	if(req.cookies['uname'] != null && req.session.type=="Admin"){
+		usersModel.getById(req.cookies['uname'], function(result){
+			res.render('admin/profile', {user: result[0]});
+		});
+	}else{
+		res.redirect('/login');
+	}
 })
 
 module.exports = router;

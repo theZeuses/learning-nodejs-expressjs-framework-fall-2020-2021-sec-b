@@ -1,0 +1,106 @@
+<link href="/public/assets/css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
+<link href="/public/assets/css/app.css" rel="stylesheet">
+<%- include('../admin/header.ejs') %>
+<div class="container">
+    <div class="row ">
+        <div class="col-md-4 py-5 bg-primary text-white text-center ">
+            <div class=" ">
+                <div class="card-body">
+                    <img src="http://www.ansonika.com/mavia/img/registration_bg.svg" style="width:30%">
+                    <h2 class="py-3">Add new book</h2>
+                    <p>Add book of a new title from here.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8 py-5 border">
+            <h4 class="pb-4">Please fill with new book details...</h4>
+            <form method="post" enctype="multipart/form-data">
+                
+                    <%if(typeof alert != 'undefined'){%>
+                        <%alert.forEach(function(error){%>
+                            <div class="form-row">
+                                <div class="alert alert-danger" role="alert">
+                                    <%= error.msg %> 
+                                </div>
+
+                            </div>
+                        <% }) %>
+                    <% } %> 
+        
+                    <%if(typeof alertOne != 'undefined'){%>
+                        <div class="form-row">
+                            <div class="alert alert-success" role="alert">
+                                <%= alertOne%> 
+                            </div>
+                        </div>
+                    <% } %>  
+
+                    <%if(typeof alertTwo != 'undefined'){%>
+                        <div class="form-row">
+                            <div class="alert alert-danger" role="alert">
+                                <%= alertTwo%> 
+                            </div>
+                        </div>
+                    <% } %> 
+                
+                <div class="form-row">
+                    <div class="form-group col-md-12 book-photo">
+                        <div class="text-center">
+                            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail book-photo" alt="avatar">
+                            <h6>Upload a cover photo...</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 book-photo">
+                        <div class="text-center">
+                            <input type="file" name="image" class="text-center center-block file-upload">
+                        </div></hr><br>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <input id="Book Name" name="BookName" placeholder="Book Name" class="form-control" type="text" value="<%if(typeof book != 'undefined'){%><%=book.name%><%}%>" required="required">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <input type="text" class="form-control" name="Author" id="Author" placeholder="Author Name" value="<%if(typeof book != 'undefined'){%><%=book.author%><%}%>" required="required">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <input id="Price" name="Price" placeholder="Price in taka" class="form-control" type="number" value="<%if(typeof book != 'undefined'){%><%=book.price%><%}%>" required="required">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input id="Quantity" name="Quantity" placeholder="Available Quantity" class="form-control" type="number" value="<%if(typeof book != 'undefined'){%><%=book.quantity%><%}%>" required="required">
+                    </div>
+                </div>
+
+                <div class="form-row">            
+                    <div class="form-group col-md-12">
+                              
+                              <select id="inputType" name="Categories" class="form-control" required="required">
+                                <option selected value="notValid">Categories ...</option>
+                              <option <%if(typeof book != 'undefined'){ if(book.category == "Novel"){%>selected<%}}%> value="Novel"> Novel</option>
+                                <option <%if(typeof book != 'undefined'){ if(book.category == "Literature"){%>selected<%}}%> value="Literature"> Literature</option>
+                                <option <%if(typeof book != 'undefined'){ if(book.category == "Sci-fi"){%>selected<%}}%> value="Sci-fi"> Sci-fi</option>
+                                <option <%if(typeof book != 'undefined'){ if(book.category == "Academic"){%>selected<%}}%> value="Academic"> Academic</option>
+                              </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                              <textarea id="details" name="Details" cols="40" rows="5" class="form-control" placeholder="Some Details about the book...."><%if(typeof book != 'undefined'){%><%=book.details%><%}%></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <input type="submit" name="submit" class="btn btn-success" value="ADD">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/public/assets/js/bootstrap.js"></script>
+<script src="/public/assets/js/jquery-3.5.1.js"></script>
+<script src="/public/assets/js/app-ui.js"></script>
+

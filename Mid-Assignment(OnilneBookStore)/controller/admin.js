@@ -1,6 +1,7 @@
 const express 	= require('express');
 const multer = require('multer');
 const { body, check, validationResult } = require('express-validator');
+const loginModel = require('../models/loginModel');
 const booksModel	= require.main.require('./models/booksModel');
 const usersModel	= require.main.require('./models/usersModel');
 const router 	= express.Router();
@@ -262,6 +263,16 @@ router.post('/home/book/update/:id', upload.single('image'), [
 	}
 })
 
+router.get('/book/remove/:id', (req, res)=>{
+	if(req.cookies['uname'] != null && req.session.type=="Admin"){
+		booksModel.delete(req.params.id, function(status){
+			res.redirect('/admin/book/manage');
+		});
+	}else{
+		res.redirect('/login');
+	}
+})
+
 router.get('/fetchmodal/:data', (req, res)=>{
 	var data = JSON.parse(req.params.data);
 	booksModel.getById(data.query, function(result){
@@ -269,14 +280,43 @@ router.get('/fetchmodal/:data', (req, res)=>{
 	});
 })
 
-router.get('/users/list', (req, res)=>{
-	res.render('users/list');
-})
 
 router.get('/profile', (req, res)=>{
 	if(req.cookies['uname'] != null && req.session.type=="Admin"){
 		usersModel.getById(req.cookies['uname'], function(result){
 			res.render('admin/profile', {user: result[0]});
+		});
+	}else{
+		res.redirect('/login');
+	}
+})
+
+router.get('/users', (req, res)=>{
+	if(req.cookies['uname'] != null && req.session.type=="Admin"){
+		usersModel.getAll(function(results){
+			res.render('users/list', {users: results});
+		});
+	}else{
+		res.redirect('/login');
+	}	
+})
+
+router.get('/users/profile/:id', (req, res)=>{
+	if(req.cookies['uname'] != null && req.session.type=="Admin"){
+		usersModel.getById(req.params.id, function(result){
+			res.render('users/profile', {user: result[0]});
+		});
+	}else{
+		res.redirect('/login');
+	}
+})
+
+router.get('/users/remove/:id', (req, res)=>{
+	if(req.cookies['uname'] != null && req.session.type=="Admin"){
+		usersModel.delete(req.params.id, function(status){
+			loginModel.delete(req.params.id, function(status){
+				res.redirect('/admin/users');
+			});
 		});
 	}else{
 		res.redirect('/login');

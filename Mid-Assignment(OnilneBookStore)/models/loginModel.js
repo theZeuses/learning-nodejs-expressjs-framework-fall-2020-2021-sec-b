@@ -31,15 +31,14 @@ module.exports = {
 		//console.log(sql);
 		db.getResults(sql, [username], function(results){
 			if(results.length > 0){
-				callback(result, true);
+				callback(results, true);
 			}else{
-				callback(result, false);
+				callback(results, false);
 			}
 		});
 	},
 	updatePass: function(user, callback){
 		var sql = "UPDATE `login` SET password = ? where userid=?";
-		console.log(sql);
 		db.execute(sql,[user.password, user.username], function(results){
 			if(results.length > 0){
 				callback(results,true);

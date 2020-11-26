@@ -291,6 +291,86 @@ router.get('/profile', (req, res)=>{
 	}
 })
 
+
+router.post('/profile', upload.single('image'), [
+	check('FullName')
+	.notEmpty()
+	.withMessage('Full name must be provide'),
+	check('email')
+	.notEmpty()
+	.withMessage('Email must be provided')
+	.trim()
+	.isEmail()
+	.withMessage('Invalid Email'),
+	check('Password')
+	.notEmpty()
+	.withMessage('Password must be provided'),
+	check('PasswordConfirm')
+	.custom((value, { req }) => {
+		if(req.body.NewPassword.length != 0){
+			if (value !== req.body.NewPassword) {
+				throw new Error('New password confirmation is incorrect');
+			  }else{
+				  return true;
+			  }
+		}else{
+			return true;
+		}
+	}),
+	check('MobileNo')
+	.notEmpty()
+	.withMessage('Mobile Number must be provided')
+	.isLength({min: 11, max: 11})
+	.withMessage('Mobile number must be 11 digit')
+],(req, res)=>{
+	var user = {
+		fullname : req.body.FullName,
+		email : req.body.email,
+		password : req.body.NewPassword,
+		bio : req.body.bio,
+		mobileno : req.body.MobileNo
+	};
+	const errors = validationResult(req);
+	if(errors.isEmpty()){
+		loginModel.getPass(req.cookies['uname'], function(result, status){
+			if(req.body.Password == result[0].password){
+				usersModel.getById(req.cookies['uname'], function(usr){
+					if(req.file != null){
+						usr[0].picture = req.file.filename;
+					}
+					usr[0].fullname = user.fullname;
+					usr[0].mobileno = user.mobileno;
+					usr[0].email = user.email;
+					if(user.password.length != 0){
+						result[0].password =  user.password;
+					}
+					if(user.bio.length != 0){
+						usr[0].bio = user.bio;
+					}
+					usr[0].username = usr[0].userid;
+					usersModel.update(usr[0], function(status){
+						result[0].username = result[0].userid;
+						loginModel.updatePass(result[0], function(status){
+							usersModel.getById(req.cookies['uname'], function(user){
+								var alertOne = "Profile updated successfully.";
+								res.render('admin/profile', {user: user[0], alertOne: alertOne});
+							});
+						});
+					});
+				});
+			}else{
+				var alertTwo = "Incorrect Password";
+				res.render('admin/profile', {user: user, alertTwo: alertTwo});
+			}
+		});
+		
+	}else{
+		const alert = errors.array();
+		res.render('admin/profile', {user: user, alert: alert});
+	}
+})
+
+
 router.get('/users', (req, res)=>{
 	if(req.cookies['uname'] != null && req.session.type=="Admin"){
 		usersModel.getAll(function(results){

@@ -18,7 +18,14 @@ module.exports = {
 		db.execute(sql, [ user.username, user.password, user.type], function(status){
 			callback(status);
 		});
-    },
+	},
+	delete: function(id, callback){
+		var sql="DELETE FROM `login` WHERE userid=?";
+		//console.log(sql);
+		db.execute(sql, [id], function(status){
+			callback(status);
+		});
+	},
 	getPass: function(username, callback){
 		var sql = "select * from login where userid=?";
 		//console.log(sql);

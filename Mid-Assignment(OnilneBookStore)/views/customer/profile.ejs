@@ -3,100 +3,114 @@
 <%- include('header.ejs') %>
 
 
-<hr>
-<div class="container bootstrap snippet">
-    <div class="row">
-  		<div class="col-sm-10"><h1><%=user.userid%></h1></div>
-    	<div class="col-sm-2"><a class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div>
-    </div>
-    <div class="row">
-  		<div class="col-sm-3"><!--left col-->
-              
+    <div class="container bootstrap snippet">
+        <div class="row">
+            <div class="col-sm-10"><h1><%=user.userid%></h1></div>
+            <% if(user.picture == null || user.picture.length == 0){ %> 
+                <div class="col-sm-2"><a class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div>
+            <% } else{%>
+                <div class="col-sm-2"><a class="pull-right"><img title="profile image" class="img-circle img-responsive" src="/public/assets/uploads/<%= user.picture %> "></a></div>
+            <% } %> 
+        </div>
+        <form class="form" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-sm-3"><!--left col-->          
+                    <div class="text-center">
+                        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+                        <h6>Upload a different photo...</h6>
+                        <input type="file" name='image' class="text-center center-block file-upload">
+                    </div></hr><br>       
+            
+                    <ul class="list-group">
+                        <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Books Purchased</strong></span> 125</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Wish List</strong></span> 78</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Books Rated</strong></span> 13</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Books Reviewed</strong></span> 37</li>
+                    </ul>          
+                </div><!--/col-3-->
+                <div class="col-sm-9">  
 
-      <div class="text-center">
-        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
-        <h6>Upload a different photo...</h6>
-        <input type="file" class="text-center center-block file-upload">
-      </div></hr><br>
+                    <%if(typeof alert != 'undefined'){%>
+                        <%alert.forEach(function(error){%>
+                            <div class="form-row">
+                                <div class="alert alert-danger" role="alert">
+                                    <%= error.msg %> 
+                                </div>
 
-               
-          
-          
-          <ul class="list-group">
-            <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Books Purchased</strong></span> 125</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Wish List</strong></span> 78</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Books Rated</strong></span> 13</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Books Reviewed</strong></span> 37</li>
-          </ul> 
-               
-          
-        </div><!--/col-3-->
-    	<div class="col-sm-9">
-
-              
-          <div class="tab-content">
-            <div class="tab-pane active" id="home">
-                <hr>
-                  <form class="form" action="##" method="post" id="registrationForm">
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                              <label for="first_name"><h4>Full name</h4></label>
-                              <input type="text" class="form-control" name="FullName" placeholder="full name"  value="<%= user.fullname %> " >
-                          </div>
-                      </div>
-          
-          
-                      <div class="form-group">
-                          <div class="col-xs-6">
-                             <label for="mobile"><h4>Mobile</h4></label>
-                              <input type="text" class="form-control" name="MobileNo."  placeholder="enter mobile number" value="<%= user.mobileno %> " >
-                          </div>
-                      </div>
-                          
-                          <div class="col-xs-6">
-                              <label for="email"><h4>Email</h4></label>
-                              <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email." value="<%= user.email %> ">
-                          </div>
-                      </div>
-
-                        <div class="form-group">
-                          
-                            <div class="col-xs-6">
-                                <label for="email"><h4>Bio</h4></label>
-                                <textarea id="details" name="Details" cols="40" rows="5" class="form-control" placeholder="Some Details about the you...."><%=user.bio%></textarea>
+                            </div>
+                        <% }) %>
+                    <% } %> 
+        
+                    <%if(typeof alertOne != 'undefined'){%>
+                        <div class="form-row">
+                            <div class="alert alert-success" role="alert">
+                                <%= alertOne%> 
                             </div>
                         </div>
-                        <div class="form-group">
-                          
-                          
-                          <div class="col-xs-6">
-                              <label for="password"><h4>Password</h4></label>
-                              <input type="password" class="form-control" name="password" id="password" placeholder="new password" >
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          
-                          <div class="col-xs-6">
-                            <label for="password2"><h4>Verify</h4></label>
-                              <input type="password" class="form-control" name="password2" id="password2" placeholder="current password">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                           <div class="col-xs-12">
-                                <br>
-                              	<button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                               	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
-                            </div>
-                      </div>
-              	</form>
-              
-              <hr>
-              
+                    <% } %>  
 
-        </div><!--/col-9-->
-    </div><!--/row-->
+                    <%if(typeof alertTwo != 'undefined'){%>
+                        <div class="form-row">
+                            <div class="alert alert-danger" role="alert">
+                                <%= alertTwo%> 
+                            </div>
+                        </div>
+                    <% } %> 
+
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="mobile"><h4>Full Name</h4></label>
+                            <input type="text" class="form-control" name="FullName"  placeholder="enter your full name" value="<%= user.fullname %>" >
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="mobile"><h4>Mobile</h4></label>
+                            <input type="text" class="form-control" name="MobileNo"  placeholder="enter mobile number" value="<%= user.mobileno %>" >
+                        </div>
+                    </div>
+                    <div class="form-group">      
+                        <div class="col-xs-6">
+                            <label for="email"><h4>Email</h4></label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email." value="<%= user.email %>">
+                        </div>
+                    </div>
+
+                    <div class="form-group">                        
+                        <div class="col-xs-6">
+                            <label for="email"><h4>Bio</h4></label>
+                            <textarea id="details" name="bio" cols="40" rows="5" class="form-control" placeholder="Some Details about the you...."><%=user.bio%></textarea>
+                        </div>
+                    </div>
+                            <div class="form-group">                          
+                            <div class="col-xs-6">
+                                <label for="password"><h4>New Password</h4></label>
+                                <input type="password" class="form-control" name="NewPassword" placeholder="new password (if want to change)">
+                            </div>
+                            </div>
+                    <div class="form-group">                                                 
+                        <div class="col-xs-6">
+                            <label for="password"><h4>Re-type New Password</h4></label>
+                            <input type="password" class="form-control" name="PasswordConfirm" placeholder="re-type new password (if want to change)">
+                        </div>
+                    </div>
+                    <div class="form-group">                         
+                        <div class="col-xs-6">
+                        <label for="password2"><h4>Verify</h4></label>
+                            <input type="password" class="form-control" name="Password"  placeholder="current password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <br>
+                            <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                        </div>
+                    </div>
+                </div><!--/col-9-->
+            </div><!--/row-->
+        </form>
+    </div>
                                                       
     <script src="/public/assets/js/bootstrap.js"></script>
     <script src="/public/assets/js/jquery-3.5.1.js"></script>

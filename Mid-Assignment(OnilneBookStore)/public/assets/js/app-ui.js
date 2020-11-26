@@ -153,6 +153,14 @@ $(function () {
         $("#remove-book-by-id").attr('href', '/admin/book/remove/'+myBookId);
       });
 
+      $(document).on("click", ".user-remove-modal", function () {
+        var myUserId = $(this).attr('user-id');
+        var myUserName = $(this).attr('user-name');
+        $("#modal-user-id").html( myUserId );
+        $("#modal-user-name").html( myUserName );
+        $("#remove-user-by-id").attr('href', '/admin/users/remove/'+myUserId);
+      });
+
       $(document).on("click", ".admin-book-info-modal", function () {
         var myBookId = $(this).attr('book-id');
         var data = {
@@ -169,7 +177,7 @@ $(function () {
             var book = book.book;
             var html = "";
             html += '<img src="/public/assets/uploads/'+book.picture+'" class="product-image4 pic-1">';
-            html += '<h4>Book ID:</h4><h5>'+book.bokid+'</h5>';
+            html += '<h4>Book ID:</h4><h5>'+book.bookid+'</h5>';
             html += '<h4>Book Name:</h4><h5>'+book.name+'</h5>';
             html += '<h4>Author:</h4><h5>'+book.author+'</h5>';
             html += '<h4>Price:</h4><h5>'+book.price+'</h5>';
@@ -199,7 +207,7 @@ $(function () {
             var book = book.book;
             var html = "";
             html += '<img src="/public/assets/uploads/'+book.picture+'" class="product-image4 pic-1">';
-            html += '<h4>Book ID:</h4><h5>'+book.bokid+'</h5>';
+            html += '<h4>Book ID:</h4><h5>'+book.bookid+'</h5>';
             html += '<h4>Book Name:</h4><h5>'+book.name+'</h5>';
             html += '<h4>Author:</h4><h5>'+book.author+'</h5>';
             html += '<h4>Price:</h4><h5>'+book.price+'</h5>';

@@ -414,4 +414,14 @@ router.get('/orders', (req, res)=>{
 	}
 })
 
+router.get('/updateorderlist', (req, res)=>{
+	ordersModel.getAll(function(results){
+		var data = 0;
+		if(results != null){
+			data = results.length;
+		}
+		res.json({data: data});
+	});
+})
+
 module.exports = router;

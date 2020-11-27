@@ -295,7 +295,18 @@ $(function () {
         });
       });
    
-
+      (function worker() {
+        $.ajax({
+          url: '/admin/updateorderlist', 
+          success: function(data) {
+            $('#numberOfOrder').html(data.data);
+          },
+          complete: function() {
+            // Schedule the next request when the current one's complete
+            setTimeout(worker, 5000);
+          }
+        });
+      })();
 
     $( '#table' ).searchable({
         striped: true,

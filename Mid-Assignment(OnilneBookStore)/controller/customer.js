@@ -35,7 +35,69 @@ router.get('/', (req, res)=>{
 })
 
 router.get('/cart', (req, res)=>{
-	res.render('customer/cart');
+
+	if(req.cookies['uname'] != null && req.session.type=="Customer"){
+		var added = req.cookies['cartItem'];
+		const map = added.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+		booksModel.getAll(function(results){
+			var books = [];
+			var booksQuantity = [];
+			var prices = [];
+			var subtotal = 0;
+			Array.from(map, ([key, value]) => {
+				var book = results.filter(function(result){
+					return result.bookid == key;
+				});
+				books.push(book[0]);
+				booksQuantity.push(value);
+				var price = parseInt(book[0].price)*parseInt(value);
+				prices.push(price);
+				subtotal += parseInt(book[0].price)*parseInt(value);
+			});
+			var total = subtotal + 100;
+			res.render('customer/cart', {books: books, booksQuantity: booksQuantity, prices: prices, subtotal: subtotal, total:total, cartItemNumber: req.cookies['cartItemNumber']});
+		});
+	}else{
+		res.redirect('/login');
+	}
+	
+})
+
+function removeItemOnce(arr, value) {
+	var index = arr.indexOf(value);
+	if (index > -1) {
+	  arr.splice(index, 1);
+	}
+	return arr;
+  }
+
+router.get('/removefromcart/:data', (req, res)=>{
+	var data = JSON.parse(req.params.data);
+	var arr = req.cookies['cartItem'];
+	arr = removeItemOnce(arr, data.query);
+	res.cookie('cartItem', arr);
+	var num = parseInt(req.cookies['cartItemNumber']);
+	num -= 1;	
+	res.cookie('cartItemNumber', num);
+	const map = arr.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+	booksModel.getAll(function(results){
+		var books = [];
+		var booksQuantity = [];
+		var prices = [];
+		var subtotal = 0;
+		Array.from(map, ([key, value]) => {
+			var book = results.filter(function(result){
+				return result.bookid == key;
+			});
+			books.push(book[0]);
+			booksQuantity.push(value);
+			var price = parseInt(book[0].price)*parseInt(value);
+			prices.push(price);
+			subtotal += parseInt(book[0].price)*parseInt(value);
+		});
+		var total = subtotal + 100;
+		res.json({books: books, booksQuantity: booksQuantity, prices: prices, subtotal: subtotal, total:total, cartItemNumber: num});
+	});
 })
 
 router.get('/home', (req, res)=>{
@@ -73,7 +135,6 @@ router.get('/addtocart/:data', (req, res)=>{
 	num += 1;
 	res.cookie('cartItem', arr);
 	res.cookie('cartItemNumber', num);
-	console.log(req.cookies['cartItem'], req.cookies['cartItemNumber']);
 	res.json({num: num});
 })
 

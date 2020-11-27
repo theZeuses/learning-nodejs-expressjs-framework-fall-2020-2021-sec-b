@@ -1,0 +1,137 @@
+<link href="/public/assets/css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
+<link href="/public/assets/css/app.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<%- include('header.ejs') %> 
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Your CART</h1>
+     </div>
+</section>
+
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-12">
+            <div id="remove-from-cart-result">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col"> </th>
+                                <th scope="col">Book</th>
+                                <th scope="col">Author</th>
+                                <th scope="col">Available</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col" class="text-right">Price</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var i=0; i<books.length; i++){ %> 
+                                <tr>
+                                <td><img src="/public/assets/uploads/<%= books[i].picture %> " style="height: 50px; width: 50px;"/> </td>
+                                    <td><%= books[i].name %> </td>
+                                    <td><%= books[i].author %> </td>
+                                    <td><%= books[i].quantity %> </td>
+                                    <td><%= booksQuantity[i] %> </td>
+                                    <td class="text-right"><%= prices[i] %></td>
+                                    <td class="text-right"><button class="btn btn-sm btn-danger remove-from-cart" value="<%= books[i].bookid %>"><i class="fa fa-trash"></i> </button> </td>
+                                </tr>
+                            <% } %> 
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Sub-Total</td>
+                                <td class="text-right" id="subtotal"><%= subtotal %> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Shipping</td>
+                                <td class="text-right">100</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><strong>Total</strong></td>
+                                <td class="text-right" id="total"><strong><%= total %> </strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-2">
+            <div class="row">
+                <div class="col-sm-12  col-md-6">
+                    <a href="/customer/home" class="btn btn-block btn-light">Continue Shopping</a>
+                </div>
+                <div class="col-sm-12 col-md-6 text-right">
+                    <a href="/customer/checkout" class="btn btn-lg btn-block btn-success text-uppercase">Checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="text-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-lg-4 col-xl-3">
+                <h5>About</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <p class="mb-0">
+                    booky.com is a online book shop.
+                </p>
+            </div>
+
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
+                <h5>Informations</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <ul class="list-unstyled">
+                    <li><a href="https://github.com/theZeuses/learning-nodejs-expressjs-framework-fall-2020-2021-sec-b/tree/main/Mid-Assignment(OnilneBookStore)"> GitHub Of the project</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto">
+                <h5>Others links</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <ul class="list-unstyled">
+                    <li><a href="https://github.com/theZeuses">My GitHub Profile</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3">
+                <h5>Contact</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <ul class="list-unstyled">
+                    <li><i class="fa fa-home mr-2"></i> My company</li>
+                    <li><i class="fa fa-envelope mr-2"></i> email@example.com</li>
+                    <li><i class="fa fa-phone mr-2"></i> + 33 12 14 15 16</li>
+                    <li><i class="fa fa-print mr-2"></i> + 33 12 14 15 16</li>
+                </ul>
+            </div>
+            <div class="col-12 copyright mt-3">
+                <p class="float-left">
+                    <a href="#">Back to top</a>
+                </p>
+                <p class="text-right text-muted">created with <i class="fa fa-heart"></i> by <i>express.js</i></a> | <span>v. 1.0</span></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="/public/assets/js/bootstrap.js"></script>
+<script src="/public/assets/js/jquery-3.5.1.js"></script>
+<script src="/public/assets/js/app-ui.js"></script>

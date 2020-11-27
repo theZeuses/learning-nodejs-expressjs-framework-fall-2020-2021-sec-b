@@ -145,6 +145,80 @@ $(function () {
       });
 
 
+      $(document).on("click", '.remove-from-cart', function () {
+        var value=$(this).attr("value");
+        var data = {
+            query : value
+        };
+        var json = JSON.stringify(data);
+        $.ajax({
+          type: 'GET',
+          url: '/customer/removefromcart/'+json,
+          contentType: 'application/json',
+          dataType: "json",
+          success: function(results) {
+            var books = results.books;
+            var booksQuantity = results.booksQuantity;
+            var prices = results.prices;
+            var books = results.books;
+            var subtotal = results.subtotal;
+            var total = results.total;
+            var cartItemNumber = results.cartItemNumber;
+            var html = '<div class="table-responsive"><table class="table table-striped">';
+            html += '<thead>';
+            html +=        '<tr>';
+            html +=            '<th scope="col"> </th>';
+            html +=            '<th scope="col">Book</th>';
+            html +=            '<th scope="col">Author</th>';
+            html +=            '<th scope="col">Available</th>';
+            html +=            '<th scope="col">Quantity</th>';
+            html +=            '<th scope="col" class="text-right">Price</th>';
+            html +=            '<th> </th>';
+            html +=        '</tr>';
+            html +=    '</thead>';
+            html +=    '<tbody>';
+            for(var i=0; i<books.length; i++){
+              html += '<tr><td><img src="/public/assets/uploads/'+books[i].picture+'" style="height: 50px; width: 50px;"/> </td>';
+               html += '<td>'+books[i].name+'</td><td>'+books[i].author+'</td><td>'+books[i].quantity+'</td><td>'+booksQuantity[i]+'</td>';
+                html += '<td class="text-right">'+prices[i]+'</td><td class="text-right"><button class="btn btn-sm btn-danger remove-from-cart" value="'+books[i].bookid+'"><i class="fa fa-trash"></i> </button> </td></tr>';
+            }
+            
+            html +=            '<tr>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td>Sub-Total</td>';
+            html +=                '<td class="text-right" id="subtotal">'+subtotal+'</td>';
+            html +=            '</tr>';
+            html +=            '<tr>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td>Shipping</td>';
+            html +=                '<td class="text-right">100</td>';
+            html +=            '</tr>';
+            html +=            '<tr>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td></td>';
+            html +=                '<td><strong>Total</strong></td>';
+            html +=                '<td class="text-right" id="total"><strong>'+total+'</strong></td></tr>';
+            html +=       ' </tbody>';
+            html +=    '</table>';
+            html +='</div>';
+
+            $('#remove-from-cart-result').html(html);
+            $('#cartItemNumber').html(cartItemNumber);
+          }
+        });
+      });
+
       $(document).on("click", ".book-remove-modal", function () {
         var myBookId = $(this).attr('book-id');
         var myBookName = $(this).attr('book-name');

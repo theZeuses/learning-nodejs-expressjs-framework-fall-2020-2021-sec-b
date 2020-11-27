@@ -226,4 +226,12 @@ router.post('/profile', upload.single('image'), [
 	}
 })
 
+router.get('/checkout', (req, res)=>{
+	if(req.cookies['uname'] != null && req.session.type=="Customer"){
+		res.render('customer/checkout', {cartItemNumber: req.cookies['cartItemNumber']});
+	}else{
+		res.redirect('/login');
+	}
+})
+
 module.exports = router;

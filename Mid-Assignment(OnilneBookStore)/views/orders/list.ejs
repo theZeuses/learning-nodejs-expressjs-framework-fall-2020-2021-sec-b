@@ -1,0 +1,66 @@
+<link href="/public/assets/css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
+<link href="/public/assets/css/app.css" rel="stylesheet">
+<%- include('../admin/header.ejs') %>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h1>All Orders List</h1>
+            </div>
+            <p>Here are all orders.. </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>Search by keyword...</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+            <input type="search" id="search" value="" class="form-control" placeholder="keyword">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table" id="table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer ID</th>
+                        <th>Total</th>
+                        <th>Quantity</th>
+                        <th>Order Date</th>
+                        <th>Payment</th>
+                        <th>City</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(orders != null){ %> 
+                        <% for( var i = 0; i < orders.length; i++){ %> 
+                            <tr>
+                                <td><%= orders[i].orderid%></td>
+                                <td><%= orders[i].userid%></td>
+                                <td><%= orders[i].total%></td>
+                                <td><%= orders[i].quantity%></td>
+                                <td><%= orders[i].payment%></td>
+                                <td><%= orders[i].city%></td>
+                                <td><%= orders[i].date%></td>
+                                <td>
+                                    <a href="/admin/orders/details/<%= orders[i].orderid%>" class="btn btn-success btn-sm" >Details</a>                 
+                                </td>
+                            </tr>
+                        <% } %> 
+                    <% } %> 
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+
+<script src="/public/assets/js/bootstrap.js"></script>
+<script src="/public/assets/js/jquery-3.5.1.js"></script>
+<script src="/public/assets/js/app-ui.js"></script>
+<script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>

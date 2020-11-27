@@ -4,6 +4,7 @@ const { body, check, validationResult } = require('express-validator');
 const loginModel = require('../models/loginModel');
 const booksModel	= require.main.require('./models/booksModel');
 const usersModel	= require.main.require('./models/usersModel');
+const ordersModel	= require.main.require('./models/ordersModel');
 const router 	= express.Router();
 
 
@@ -397,6 +398,16 @@ router.get('/users/remove/:id', (req, res)=>{
 			loginModel.delete(req.params.id, function(status){
 				res.redirect('/admin/users');
 			});
+		});
+	}else{
+		res.redirect('/login');
+	}
+})
+
+router.get('/orders', (req, res)=>{
+	if(req.cookies['uname'] != null && req.session.type=="Admin"){
+		ordersModel.getAll(function(results){
+			res.render('orders/list',{orders: results});
 		});
 	}else{
 		res.redirect('/login');
